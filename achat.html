@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achat</title>
+
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            background-color: #023f2d;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        header, footer {
+            background: #8d0603;
+            color: #fff;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    background: #8d0603;
+    position: relative;
+  }
+
+ 
+
+
+        header h1, footer p {
+            margin: 0;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        fieldset {
+            background-color: #fff;
+            padding: 78px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .formulaire {
+            display: flex;
+            flex-wrap: wrap;
+            width: 600px; /* Ajustez la largeur selon vos besoins */
+        }
+        .formulaire label,.list {
+            flex: 1 0 200px; /* Largeur des labels */
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .formulaire input,.list {
+            flex:  0 355px; /* Largeur des champs de saisie */
+            margin: 10px 0;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .formulaire .form-group {
+            display: flex;  
+            width: 100%;
+        }
+        .formulaire .error {
+            border-color: red;
+        }
+      
+@property --shimmer {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 33deg;
+}
+
+@keyframes shimmer {
+    0% {
+        --shimmer: 0deg;
+    }
+    100% {
+        --shimmer: 360deg;
+    }
+}
+
+@keyframes shine {
+    0% {
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    55% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@keyframes text {
+    0% {
+        background-position: 100% center;
+    }    
+    100% {
+        background-position: -100% center;
+    }    
+}
+
+button {
+    color: var(--bg);
+    font-weight: 600;
+    /*     background-image: linear-gradient(90deg, #fcecfe, #fbf6e7, #e6fcf5); */
+    background-image: linear-gradient(
+        315deg,
+        #8ecc9d -10%,
+        #7dcd5b 50%,
+        #385b05 110%
+    );
+    padding: .8em 1.4em;
+    position: relative;
+    isolation: isolate;
+    box-shadow: 0 2px 3px 1px hsl(var(--glow-hue) 50% 20% / 50%), inset 0 -10px 20px -10px hsla(var(--shadow-hue),10%,90%,95%);
+    border-radius: 0.66em;
+    scale: 1;
+    transition: all var(--spring-duration) var(--spring-easing);
+}
+
+button:hover:not(:active),
+button.active {
+    transition-duration: calc(var(--spring-duration)*0.5);
+    scale: 1.2;
+    box-shadow: 0 4px 8px -2px hsl(var(--glow-hue) 50% 20% / 50%), inset 0 0 0 transparent;
+}
+button:active {
+    scale: 1.1;
+    transition-duration: calc(var(--spring-duration)*0.5);
+}
+
+.shimmer {
+    position: absolute;
+    inset: -40px;
+    border-radius: inherit;
+    mask-image: conic-gradient(
+        from var(--shimmer, 0deg),
+        transparent 0%,
+        transparent 10%,
+        black 36%,
+        black 45%,
+        transparent 50%,
+        transparent 60%,
+        black 85%,
+        black 95%,
+        transparent 100%
+    );
+    mask-size: cover;
+    mix-blend-mode: plus-lighter;
+    animation: shimmer 1s linear infinite both;
+}
+button:hover .shimmer::before,
+button:hover .shimmer::after,
+button.active .shimmer::before,
+button.active .shimmer::after {
+    opacity: 1;
+    animation: shine 1.2s ease-in 1 forwards;
+}
+.shimmer::before,
+.shimmer::after {
+    transition: all 0.5s ease;
+    opacity: 0;
+    content: "";
+    border-radius: inherit;
+    position: absolute;
+    mix-blend-mode: color;
+    inset: 40px;
+    pointer-events: none;
+}
+.shimmer::before {
+    box-shadow: 0 0 3px 2px hsl(var(--glow-hue) 20% 95%),
+        0 0 7px 4px hsl(var(--glow-hue) 20% 80%),
+        0 0 13px 4px hsl(var(--glow-hue) 50% 70%),
+        0 0 25px 5px hsl(var(--glow-hue) 100% 70%);
+    z-index: -1;
+}
+
+.shimmer::after {
+    box-shadow: inset 0 0 0 1px hsl(var(--glow-hue) 70% 95%),
+        inset 0 0 2px 1px hsl(var(--glow-hue) 100% 80%),
+        inset 0 0 5px 2px hsl(var(--glow-hue) 100% 70%);
+    z-index: 2;
+}
+
+button .text {
+    color: transparent;
+    background-clip: text;
+    background-color: var(--bg);
+    background-image: linear-gradient(120deg, transparent, hsla(var(--glow-hue),100%,80%,0.66) 40%, hsla(var(--glow-hue),100%,90%,.9) 50%, transparent 52%);
+    background-repeat: no-repeat;
+    background-size: 300% 300%;
+    background-position: center 200%;
+}
+
+button:hover .text,
+button.active .text {
+    animation: text .66s ease-in 1 both;
+}
+            
+            
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector('.formulaire');
+            form.addEventListener('submit', function(event) {
+                let valid = true;
+                form.querySelectorAll('input').forEach(input => {
+                    if (input.value.trim() === '') {
+                        input.classList.add('error');
+                        valid = false;
+                    } else {
+                        input.classList.remove('error');
+                    }
+                });
+                if (!valid) {
+                    event.preventDefault();
+                    alert("Veuillez remplir tous les champs.");
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img
+              class="starting-logo dark-version mobile-only-logo skip-lazy"
+              width="170"
+              height=""
+              alt="BTL"
+              src="btl.jpg"
+            />
+          </div>
+    </header>
+    <main>
+        <fieldset>
+            <h1>Formulaire de transaction</h1>
+            <form class="formulaire" action="achat.php" method="post">
+                <div class="form-group">
+                    <label for="codeTransaction">Code transaction :</label>
+                    <input type="text" id="codeTransaction" name="codeTransaction" required value="250" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="caisse">Caisse :</label>
+                    <input type="text" id="caisse" name="caisse" required value="0180" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="devise">devise :</label>
+                    <select id="devise" name="devise" required>
+                        <option value="TND">TND</option>
+                        <option value="EUR">EUR</option>
+                        <option value="USD">USD</option>
+                        <option value="SEK">SEK</option>
+                        <option value="SAR">SAR</option>
+                        <option value="QAR">QAR</option>
+                        <option value="NOK">NOK</option>
+                        <option value="JPY">JPY</option>
+                        <option value="GBP">GBP</option>
+                        <option value="DKK">DKK</option>
+                        <option value="CHF">CHF</option>
+                        <option value="CAD">CAD</option>
+                        <option value="AED">AED</option>
+                        <!-- Ajoutez d'autres options au besoin -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="compteCaisseDevise">Compte Caisse Devise :</label>
+                    <input type="text" id="compteCaisseDevise" name="compteCaisseDevise" required disabled value="TND1000101801080" >
+                </div>
+              
+                <div class="form-group">
+                    <label for="montantDevise">Montant Devise :</label>
+                    <input type="text" id="montantDevise" name="montantDevise" required>
+                </div>
+                <div class="form-group">
+                    <label for="compteCaisseTND">Compte Caisse TND :</label>
+                    <input type="text" id="compteCaisseTND" name="compteCaisseTND" required disabled>
+                </div>
+                <div class="form-group">
+                    <label for="deviseLocal">Devise Local :</label>
+                    <input type="text" id="deviseLocal" name="deviseLocal" required value="TND" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="montantTnd">Montant TND :</label>
+                    <input type="text" id="montantTnd" name="montantTnd" required  >
+                </div>
+                <div class="form-group">
+                    <label for="list">Mode de Change :</label>
+                    <select id="list" name="modechange" required>
+                        <option value="normal">Normal</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                        <!-- Ajoutez d'autres options au besoin -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="coursDeChange">Cours de Change :</label>
+                    <input type="text" id="coursDeChange" name="coursDeChange" required>
+                </div>
+                <div class="form-group">
+                    <label for="TypeConv">Type Convention :</label>
+                    <input type="text" id="TypeConv" name="TypeConv" required>
+                </div>
+                <div class="form-group">
+                    <label for="PaysOrigineDevise">Pays Origine Devise :</label>
+                    <input type="text" id="PaysOrigineDevise" name="PaysOrigineDevise" required>
+                </div>
+                <div class="form-group">
+                    <label for="codeBalancePaiement">Code Balance Paiement :</label>
+                    <input type="text" id="codeBalancePaiement" name="codeBalancePaiement" required>
+                </div>
+                <div class="form-group">
+                    <label for="libelle">Libellé Opération :</label>
+                    <input type="text" id="libelle" name="libelle" required>
+                </div>
+
+                <!-- Détails Bénéficiaire -->
+                <h2>Détails Bénéficiaire</h2>
+                <div class="form-group">
+                    <label for="NomBeneficiare">Nom Bénéficiaire :</label>
+                    <input type="text" id="NomBeneficiare" name="NomBeneficiare" required>
+                </div>
+                <div class="form-group">
+                    <label for="Prenomeneficiare">Prénom Bénéficiaire :</label>
+                    <input type="text" id="Prenomeneficiare" name="Prenomeneficiare" required>
+                </div>
+                <div class="form-group">
+                    <label for="TypePieceIdentite">Type Pièce Identité :</label>
+                    <input type="text" id="TypePieceIdentite" name="TypePieceIdentite" required>
+                </div>
+                <div class="form-group">
+                    <label for="nationalitePieceIdentite">Nationalité Pièce Identité :</label>
+                    <input type="text" id="nationalitePieceIdentite" name="nationalitePieceIdentite" required>
+                </div>
+                <div class="form-group">
+                    <label for="NumeroPiece">Numéro Pièce Identité :</label>
+                    <input type="text" id="NumeroPiece" name="NumeroPiece" required>
+                </div>
+                <div class="form-group">
+                    <label for="dateDelivrance">Date de Délivrance Pièce Identité :</label>
+                    <input type="date" id="dateDelivrance" name="dateDelivrance" required>
+                </div>
+                <div class="form-group">
+                    <label for="dateValidite">Date de Validité Pièce Identité :</label>
+                    <input type="date" id="dateValidite" name="dateValidite" required>
+                </div>
+                <div class="form-group">
+                    <label for="dateNaiss">Date de Naissance :</label>
+                    <input type="date" id="dateNaiss" name="dateNaiss" required>
+                </div>
+                <div class="form-group">
+                    <label>Sexe :</label>
+                    <input type="radio" id="sexe-none" name="sexe" value="None" checked required>
+                    <label for="sexe-none">None</label>
+                    <input type="radio" id="sexe-f" name="sexe" value="F" required>
+                    <label for="sexe-f">F</label>
+                    <input type="radio" id="sexe-m" name="sexe" value="M" required>
+                    <label for="sexe-m">M</label>
+                </div>
+                <div class="form-group">
+                    <label for="etatCivil">État Civil :</label>
+                    <select id="etatCivil" name="etatCivil" required>
+                        <option value="normal">Normal</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                        <!-- Ajoutez d'autres options au besoin -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Qualité :</label>
+                    <input type="radio" id="qualite-none" name="qualite" value="None" checked required>
+                    <label for="qualite-none">None</label>
+                    <input type="radio" id="qualite-nr" name="qualite" value="NR" required>
+                    <label for="qualite-nr">NR</label>
+                    <input type="radio" id="qualite-r" name="qualite" value="R" required>
+                    <label for="qualite-r">R</label>
+                </div>
+                <div class="form-group">
+                    <label for="Profession">Profession :</label>
+                    <input type="text" id="Profession" name="Profession" required>
+                </div>
+                <div class="form-group">
+                    <label for="Nationalite">Nationalité :</label>
+                    <input type="text" id="Nationalite" name="Nationalite" required>
+                </div>
+                <div class="form-group">
+                    <label for="paysResidance">Pays de Résidence :</label>
+                    <input type="text" id="paysResidance" name="paysResidance" required>
+                </div>
+                <div class="form-group">
+                    <label for="adresse">Adresse :</label>
+                    <input type="text" id="adresse" name="adresse" required>
+                </div>
+                <div class="form-group">
+                    <label for="tlf">Téléphone :</label>
+                    <input type="tel" id="tlf" name="tlf" required>
+                </div>
+                <div class="form-group">
+                    <label for="accompagne">Accompagné de :</label>
+                    <input type="text" id="accompagne" name="accompagne" required>
+                </div>
+                <div class="form-group">
+                    <label for="destination">Destination :</label>
+                    <input type="text" id="destination" name="destination" required>
+                </div>
+                <div class="form-group">
+                    <label for="RefDeclarationDouaniere">Réf. Déclaration Douanière :</label>
+                    <input type="text" id="RefDeclarationDouaniere" name="RefDeclarationDouaniere" required>
+                </div>
+                <div class="form-group">
+                    <label for="dateEmmissionDeclar">Date d'Émission Déclaration :</label>
+                    <input type="date" id="dateEmmissionDeclar" name="dateEmmissionDeclar" required>
+                </div>
+                <div class="form-group">
+                    <label for="deviseDeclar">Devise Déclarée :</label>
+                    <input type="date" id="deviseDeclar" name="deviseDeclar" required>
+                </div>
+                <div class="form-group">
+                    <label for="montantDeclarationDouan">Montant Déclaration Douanière :</label>
+                    <input type="text" id="montantDeclarationDouan" name="montantDeclarationDouan" required>
+                </div>
+                <div class="form-group">
+                    <label for="montantUtiliseDeclaration">Montant Utilisé Déclaration :</label>
+                    <input type="text" id="montantUtiliseDeclaration" name="montantUtiliseDeclaration" required>
+                </div>
+             
+                <button type="submit">Soumettre</button>
+            </form>
+        </fieldset>
+</main>
+<footer>
+<div class="footer-content">
+  <p class="p1">BTL© <span id="year"></span></p>
+</div>
+</footer>
+
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    // Récupérer les éléments du DOM
+    const deviseSelect = document.getElementById('devise');
+    const compteCaisseDeviseInput = document.getElementById('compteCaisseDevise');
+    const compteCaisseTNDInput = document.getElementById('compteCaisseTND');
+    const coursDeChangeInput = document.getElementById('coursDeChange');
+    const montantTndInput = document.getElementById('montantTnd');
+    const montantDeviseInput = document.getElementById('montantDevise');
+
+    // Taux de change pour différentes devises
+    const tauxDeChange = {
+        'EUR': 3.34,
+        'USD': 3.12,
+        'SEK': 0.31,
+        'SAR': 0.89,
+        'QAR': 0.91,
+        'NOK': 0.33,
+        'JPY': 0.023,
+        'GBP': 4.13,
+        'DKK': 0.45,
+        'CHF': 3.75,
+        'CAD': 2.48,
+        'AED': 0.91
+    };
+
+    // Variable pour stocker le montant en devise
+    let montantEnDevise = 0;
+
+    function updateFields() {
+        const selectedDevise = deviseSelect.value;
+        const taux = tauxDeChange[selectedDevise] || 1;
+
+        // Réinitialiser les valeurs des champs de montant
+        montantDeviseInput.value = '';
+        montantTndInput.value = '';
+        coursDeChangeInput.value = '';
+
+        if (selectedDevise === 'TND') {
+            compteCaisseDeviseInput.value = 'TND1000101801080';
+            compteCaisseTNDInput.value = 'TND1000101801080';
+
+            // Lorsque la devise est TND, le montant en TND est le même que le montant en devise
+            montantTndInput.value = montantEnDevise;
+            montantDeviseInput.value = montantEnDevise;
+        } else {
+            compteCaisseDeviseInput.value = selectedDevise + '1000201801080';
+            compteCaisseTNDInput.value = 'TND1000101801080';
+
+            // Ajouter un écouteur pour le champ montantDevise
+            montantDeviseInput.addEventListener('input', function() {
+                montantEnDevise = parseFloat(this.value) || 0;
+                montantTndInput.value = (montantEnDevise * coursDeChangeInput.value).toFixed(2);
+            });
+        }
+    }
+
+    // Ajouter un événement sur le sélecteur de devise
+    deviseSelect.addEventListener('change', updateFields);
+
+    // Ajouter un événement pour la saisie dans le champ montantDevise pour la devise TND
+    montantDeviseInput.addEventListener('input', function() {
+        const selectedDevise = deviseSelect.value;
+        if (selectedDevise === 'TND') {
+            montantEnDevise = parseFloat(this.value) || 0;
+            montantTndInput.value = montantEnDevise;
+        }
+    });
+
+    // Initialiser les champs à la première sélection
+    updateFields();
+});
+
+
+</script>
+</body>
+</html>
+
+
